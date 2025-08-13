@@ -1,0 +1,231 @@
+#include <stdio.h>
+#include <string.h>
+
+// Definições de tamanhos
+#define STRING_SIZE 50
+#define MAX_CARS 100
+#define MAX_CUSTOMERS 100
+#define MAX_RENTALS 100
+
+// Estrutura para representar um carro
+typedef struct {
+    int id;
+    char modelo[STRING_SIZE];
+    char marca[STRING_SIZE];
+    char cor[STRING_SIZE];
+    float preco_diaria;
+    int disponivel;  // 1 = disponível, 0 = não disponível
+} Carro;
+
+// Estrutura para representar um cliente
+typedef struct {
+    int id;
+    char nome[STRING_SIZE];
+    char cpf[15];
+    char telefone[15];
+} Cliente;
+
+// Estrutura para representar um aluguel
+typedef struct {
+    int id;
+    int carro_id;
+    int cliente_id;
+    int dias;
+    float valor_total;
+} Aluguel;
+
+// Arrays para armazenar os dados
+Carro carros[MAX_CARS];
+Cliente clientes[MAX_CUSTOMERS];
+Aluguel alugueis[MAX_RENTALS];
+
+// Variáveis para controlar o número de registros
+int num_carros = 0;
+int num_clientes = 0;
+int num_alugueis = 0;
+
+// --- Funções utilitárias ---
+
+int gerar_novo_id(int tipo) {
+    if (tipo == 1) return num_carros + 1;
+    else if (tipo == 2) return num_clientes + 1;
+    else if (tipo == 3) return num_alugueis + 1;
+    return 0;
+}
+
+Carro* encontrar_carro_por_id(int id) {
+    for (int i = 0; i < num_carros; i++) {
+        if (carros[i].id == id) return &carros[i];
+    }
+    return NULL;
+}
+
+Cliente* encontrar_cliente_por_id(int id) {
+    for (int i = 0; i < num_clientes; i++) {
+        if (clientes[i].id == id) return &clientes[i];
+    }
+    return NULL;
+}
+
+Aluguel* encontrar_aluguel_por_id(int id) {
+    for (int i = 0; i < num_alugueis; i++) {
+        if (alugueis[i].id == id) return &alugueis[i];
+    }
+    return NULL;
+}
+
+int verificar_disponibilidade_carro(int id) {
+    Carro* c = encontrar_carro_por_id(id);
+    if (c != NULL) return c->disponivel;
+    return 0;
+}
+
+// --- Funções para manipulação de carros ---
+
+void cadastrar_carro() {
+    if (num_carros < MAX_CARS) {
+        Carro novo_carro;
+        novo_carro.id = gerar_novo_id(1);
+        novo_carro.disponivel = 1;
+
+        printf("Modelo: ");
+        fgets(novo_carro.modelo, STRING_SIZE, stdin);
+        novo_carro.modelo[strcspn(novo_carro.modelo, "\n")] = 0;
+
+        printf("Marca: ");
+        fgets(novo_carro.marca, STRING_SIZE, stdin);
+        novo_carro.marca[strcspn(novo_carro.marca, "\n")] = 0;
+
+        printf("Cor: ");
+        fgets(novo_carro.cor, STRING_SIZE, stdin);
+        novo_carro.cor[strcspn(novo_carro.cor, "\n")] = 0;
+
+        printf("Preço por dia: ");
+        scanf("%f", &novo_carro.preco_diaria);
+        getchar();
+
+        carros[num_carros++] = novo_carro;
+        printf("Carro cadastrado com sucesso! ID: %d\n", novo_carro.id);
+    } else {
+        printf("Limite máximo de carros atingido.\n");
+    }
+}
+
+void listar_carros() {
+    if (num_carros > 0) {
+        for (int i = 0; i < num_carros; i++) {
+            printf("ID: %d\n", carros[i].id);
+            printf("Modelo: %s\n", carros[i].modelo);
+            printf("Marca: %s\n", carros[i].marca);
+            printf("Cor: %s\n", carros[i].cor);
+            printf("Preço por dia: %.2f\n", carros[i].preco_diaria);
+            printf("Disponível: %s\n", carros[i].disponivel ? "Sim" : "Não");
+            printf("----------------------\n");
+        }
+    } else {
+        printf("Nenhum carro cadastrado.\n");
+    }
+}
+
+void buscar_carro() {
+    int id;
+    printf("Digite o ID do carro: ");
+    scanf("%d", &id);
+    getchar();
+
+    Carro* c = encontrar_carro_por_id(id);
+    if (c != NULL) {
+        printf("Modelo: %s\n", c->modelo);
+        printf("Marca: %s\n", c->marca);
+        printf("Cor: %s\n", c->cor);
+        printf("Preço por dia: %.2f\n", c->preco_diaria);
+        printf("Disponível: %s\n", c->disponivel ? "Sim" : "Não");
+    } else {
+        printf("Carro não encontrado.\n");
+    }
+}
+
+// Outras funções de carro como alterar_carro e remover_carro podem ser adicionadas seguindo a mesma lógica
+
+// --- Funções para manipulação de clientes ---
+
+void cadastrar_cliente() {
+    if (num_clientes < MAX_CUSTOMERS) {
+        Cliente novo_cliente;
+        novo_cliente.id = gerar_novo_id(2);
+
+        printf("Nome: ");
+        fgets(novo_cliente.nome, STRING_SIZE, stdin);
+        novo_cliente.nome[strcspn(novo_cliente.nome, "\n")] = 0;
+
+        printf("CPF: ");
+        fgets(novo_cliente.cpf, 15, stdin);
+        novo_cliente.cpf[strcspn(novo_cliente.cpf, "\n")] = 0;
+
+        printf("Telefone: ");
+        fgets(novo_cliente.telefone, 15, stdin);
+        novo_cliente.telefone[strcspn(novo_cliente.telefone, "\n")] = 0;
+
+        clientes[num_clientes++] = novo_cliente;
+        printf("Cliente cadastrado com sucesso! ID: %d\n", novo_cliente.id);
+    } else {
+        printf("Limite máximo de clientes atingido.\n");
+    }
+}
+
+void listar_clientes() {
+    if (num_clientes > 0) {
+        for (int i = 0; i < num_clientes; i++) {
+            printf("ID: %d\n", clientes[i].id);
+            printf("Nome: %s\n", clientes[i].nome);
+            printf("CPF: %s\n", clientes[i].cpf);
+            printf("Telefone: %s\n", clientes[i].telefone);
+            printf("----------------------\n");
+        }
+    } else {
+        printf("Nenhum cliente cadastrado.\n");
+    }
+}
+
+void buscar_cliente() {
+    int id;
+    printf("Digite o ID do cliente: ");
+    scanf("%d", &id);
+    getchar();
+
+    Cliente* c = encontrar_cliente_por_id(id);
+    if (c != NULL) {
+        printf("Nome: %s\n", c->nome);
+        printf("CPF: %s\n", c->cpf);
+        printf("Telefone: %s\n", c->telefone);
+    } else {
+        printf("Cliente não encontrado.\n");
+    }
+}
+
+// --- Main ---
+
+int main() {
+    int opcao;
+    do {
+        printf("\n1. Cadastrar Carro\n2. Listar Carros\n3. Buscar Carro\n");
+        printf("4. Cadastrar Cliente\n5. Listar Clientes\n6. Buscar Cliente\n");
+        printf("0. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+        getchar();
+
+        switch (opcao) {
+            case 1: cadastrar_carro(); break;
+            case 2: listar_carros(); break;
+            case 3: buscar_carro(); break;
+            case 4: cadastrar_cliente(); break;
+            case 5: listar_clientes(); break;
+            case 6: buscar_cliente(); break;
+            case 0: printf("Saindo...\n"); break;
+            default: printf("Opção inválida.\n");
+        }
+    } while (opcao != 0);
+
+    return 0;
+}
