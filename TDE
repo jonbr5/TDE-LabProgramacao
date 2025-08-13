@@ -1,0 +1,31 @@
+TDE  Laboratorio de Programação
+Universidade Paraíso
+Professor:Caetano 
+Aluno:João Arthur Jácome de Caldas
+
+Professor: Caetano Segundo Aluno (a): João Arthur Jácome de Caldas
+
+1.
+
+#include <stdio.h>
+
+int main() {
+
+int numero, soma = 0;
+
+printf("Digite um número inteiro positivo: "); scanf("%d", &numero);
+
+if (numero <= 0) {
+
+printf ("Por favor, digite um número positivo.\n"); else {
+
+for (int i = 1; i <= numero; i++) {
+
+soma += i;
+
+}
+
+printf("A soma dos números de 1 até %d é: %d\n", numero, soma);
+
+return 0:
+}
