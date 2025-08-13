@@ -1,0 +1,64 @@
+Parte 1: Definição de estruturas e variáveis
+
+Essa parte define como os dados serão organizados. O código cria três estruturas (com struct) para representar os principais elementos do sistema:
+
+Carro: contém o id, modelo, marca, cor, preço por dia e se o carro está disponível.
+
+Cliente: armazena o id, nome, CPF e telefone.
+
+Aluguel: guarda o id, o id do carro alugado, o id do cliente, a quantidade de dias do aluguel e o valor total.
+
+
+Depois disso, o código declara arrays para armazenar vários registros de cada tipo:
+
+Um array de carros (carros),
+
+Um array de clientes (clientes),
+
+E um array de aluguéis (alugueis).
+
+
+Além disso, são criadas variáveis para contar quantos carros, clientes e aluguéis existem no momento (num_carros, num_clientes, num_alugueis), e são declaradas as funções que serão usadas no restante do código (como cadastrar_carro, listar_clientes, realizar_aluguel, etc.).
+
+
+---
+
+Parte 2: Implementação das funções
+
+Aqui estão as funções que fazem o sistema funcionar. Cada grupo de funções cuida de uma parte:
+
+Funções de carros: permitem cadastrar um novo carro, listar todos, buscar por ID, alterar informações ou remover um carro. Por exemplo, em cadastrar_carro(), o programa pede ao usuário as informações do carro e salva no array.
+
+Funções de clientes: seguem o mesmo padrão, mas lidam com dados de clientes. Também é possível cadastrar, listar, buscar, alterar e remover um cliente.
+
+Funções de aluguéis: permitem realizar um aluguel (ligando um carro a um cliente por uma certa quantidade de dias), listar os aluguéis existentes, buscar um aluguel específico e finalizar um aluguel (marcando o carro como disponível novamente).
+
+
+Também existem funções auxiliares que ajudam em tarefas como:
+
+Gerar um novo ID automaticamente (gerar_novo_id),
+
+Verificar se um carro está disponível (verificar_disponibilidade_carro),
+
+Ou encontrar um carro, cliente ou aluguel pelo ID (encontrar_carro_por_id, etc.).
+
+
+
+---
+
+Parte 3: Menu principal (função main)
+
+A função main() é onde o sistema realmente roda. Nela existe um menu interativo, mostrado repetidamente ao usuário. Esse menu exibe uma lista de opções numeradas, como:
+
+"1. Cadastrar Carro",
+
+"6. Cadastrar Cliente",
+
+"11. Realizar Aluguel",
+
+e assim por diante até a opção "0. Sair".
+
+
+O usuário digita o número da opção que deseja, e o programa executa a função correspondente usando um switch.
+
+Esse menu continua aparecendo até que o usuário escolha sair. Isso permite que a pessoa utilize o sistema de forma simples, navegando pelas opções com números.
